@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
@@ -45,9 +46,9 @@ export async function GET(request: NextRequest) {
       }),
       // For now, we'll use a placeholder for views
       // In a real app, you'd track this separately
-      prisma.jobListing.count({
-        where: { employerId: session.user.id },
-      }) * 10, // Placeholder calculation
+      prisma.jobListing
+        .count({ where: { employerId: session.user.id } })
+        .then((n) => n * 10), // Placeholder calculation
     ]);
 
     return NextResponse.json({

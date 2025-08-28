@@ -46,6 +46,8 @@ export default function NewJobPage() {
       type: "FULL_TIME",
       level: "MID",
       isActive: true,
+      requirements: [],
+      benefits: [],
     },
   });
 

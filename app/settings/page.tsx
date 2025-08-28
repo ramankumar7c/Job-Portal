@@ -238,7 +238,7 @@ export default function SettingsPage() {
                 </Alert>
               )}
 
-              <form onSubmit={handlePasswordSubmit} className="space-y-4">
+              <form onSubmit={handlePasswordSubmit(onPasswordSubmit)} className="space-y-4">
                 <div>
                   <Label htmlFor="currentPassword">Current Password</Label>
                   <div className="relative">
@@ -354,7 +354,7 @@ export default function SettingsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleEmailSubmit} className="space-y-4">
+              <form onSubmit={handleEmailSubmit(onEmailSubmit)} className="space-y-4">
                 <div>
                   <Label htmlFor="email">New Email Address</Label>
                   <Input

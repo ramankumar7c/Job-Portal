@@ -8,13 +8,15 @@ export const jobListingSchema = z.object({
   type: z.enum(["FULL_TIME", "PART_TIME", "CONTRACT", "INTERNSHIP", "REMOTE"]),
   level: z.enum(["ENTRY", "MID", "SENIOR", "LEAD", "EXECUTIVE"]),
   salary: z.string().optional(),
-  requirements: z.array(z.string()).default([]),
-  benefits: z.array(z.string()).default([]),
+  requirements: z.array(z.string()).optional().default([]),
+  benefits: z.array(z.string()).optional().default([]),
+  isActive: z.boolean().optional().default(true),
 });
 
 export const jobApplicationSchema = z.object({
   coverLetter: z.string().optional(),
 });
 
-export type JobListingData = z.infer<typeof jobListingSchema>;
+// Use input type to match react-hook-form + zodResolver expectations
+export type JobListingData = z.input<typeof jobListingSchema>;
 export type JobApplicationData = z.infer<typeof jobApplicationSchema>;
