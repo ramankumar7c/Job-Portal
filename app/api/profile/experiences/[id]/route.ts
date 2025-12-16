@@ -3,9 +3,11 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -24,7 +26,7 @@ export async function PUT(
       );
     }
 
-    const experienceId = params.id;
+    const { id: experienceId } = await params;
     const body = await request.json();
     const {
       title,
@@ -74,7 +76,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -93,7 +95,7 @@ export async function DELETE(
       );
     }
 
-    const experienceId = params.id;
+    const { id: experienceId } = await params;
 
     // Verify ownership
     const existingExperience = await prisma.experience.findUnique({
