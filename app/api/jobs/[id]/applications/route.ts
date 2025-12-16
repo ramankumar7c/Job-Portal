@@ -5,7 +5,10 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(request: NextRequest, context: any) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -16,7 +19,7 @@ export async function GET(request: NextRequest, context: any) {
       );
     }
 
-    const jobId = context?.params?.id as string;
+    const { id: jobId } = await params;
 
     // Verify the requester is the employer who owns this job (or an admin)
     const job = await prisma.jobListing.findUnique({

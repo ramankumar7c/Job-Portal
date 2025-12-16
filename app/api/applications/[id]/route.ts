@@ -3,17 +3,19 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-// Mark as dynamic and loosen context typing to satisfy Next.js 15 route type checks
 export const dynamic = "force-dynamic";
 
-export async function PUT(request: NextRequest, context: any) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const applicationId = context?.params?.id as string;
+    const { id: applicationId } = await params;
     const body = await request.json();
     const nextStatus = body?.status as
       | "APPLIED"

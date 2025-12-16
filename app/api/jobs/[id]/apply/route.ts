@@ -5,7 +5,10 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-export async function POST(request: NextRequest, context: any) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await getServerSession(authOptions);
     
@@ -23,7 +26,7 @@ export async function POST(request: NextRequest, context: any) {
       );
     }
 
-    const jobId = context?.params?.id as string;
+    const { id: jobId } = await params;
     const body = await request.json();
     const { coverLetter, resumeUrl, skills } = body as {
       coverLetter?: string;
@@ -122,7 +125,10 @@ export async function POST(request: NextRequest, context: any) {
   }
 }
 
-export async function DELETE(request: NextRequest, context: any) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -140,7 +146,7 @@ export async function DELETE(request: NextRequest, context: any) {
       );
     }
 
-    const jobId = context?.params?.id as string;
+    const { id: jobId } = await params;
 
     // Ensure an application exists
     const existing = await prisma.jobApplication.findUnique({

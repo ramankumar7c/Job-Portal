@@ -5,7 +5,10 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(request: NextRequest, context: any) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ jobId: string }> }
+) {
   try {
     const session = await getServerSession(authOptions);
     
@@ -16,7 +19,7 @@ export async function GET(request: NextRequest, context: any) {
       );
     }
 
-    const jobId = context?.params?.jobId as string;
+    const { jobId } = await params;
 
     const application = await prisma.jobApplication.findUnique({
       where: {
