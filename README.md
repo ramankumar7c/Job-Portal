@@ -1,6 +1,6 @@
 # Job Portal - Full-Stack Job Board Application
 
-A comprehensive job portal application built with Next.js 14, featuring role-based access control for job seekers and employers, complete with job posting, application management, and user profile systems.
+A comprehensive job portal application built with Next.js 15 (App Router), featuring role-based access control for job seekers and employers, complete with job posting, application management, and user profile systems.
 
 ## 🚀 Features
 
@@ -27,13 +27,13 @@ A comprehensive job portal application built with Next.js 14, featuring role-bas
 ### 🎨 User Interface
 - **Modern Design**: Built with Tailwind CSS and shadcn/ui components
 - **Responsive Layout**: Mobile-first design that works on all devices
-- **Dark/Light Theme**: Theme support with next-themes
+- **Theme Ready**: Architecture ready for dark/light theming; currently using a clean light theme
 - **Interactive Components**: Toast notifications, modals, and form validation
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Next.js 14**: App Router with React 18
+- **Next.js 15**: App Router with React 18
 - **TypeScript**: Full type safety
 - **Tailwind CSS**: Utility-first CSS framework
 - **shadcn/ui**: High-quality React components
@@ -51,6 +51,7 @@ A comprehensive job portal application built with Next.js 14, featuring role-bas
 - **ESLint**: Code linting
 - **Prettier**: Code formatting
 - **TypeScript**: Static type checking
+- **Prisma Client**: Automatically generated on install via `postinstall: prisma generate`
 
 ## 📁 Project Structure
 
@@ -180,11 +181,13 @@ src/
 1. Connect your GitHub repository to Vercel
 2. Set environment variables in Vercel dashboard
 3. Deploy automatically on push to main branch
+4. On first deploy or after Prisma schema changes, run:
+   ```bash
+   npx prisma db push
+   ```
 
 ### Other Platforms
-- **Netlify**: Static export with API routes
-- **Railway**: Full-stack deployment
-- **DigitalOcean**: App Platform deployment
+- **Railway / Render / DigitalOcean App Platform**: ensure `postinstall` runs `prisma generate`. Run `npx prisma db push` once per new DB or schema update.
 
 ## 🔧 Configuration
 

@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export const dynamic = "force-dynamic";
+
+export async function GET(request: NextRequest, context: any) {
   try {
-    const jobId = params.id;
+    const jobId = context?.params?.id as string;
 
     const job = await prisma.jobListing.findUnique({
       where: { id: jobId },
@@ -46,12 +45,9 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: NextRequest, context: any) {
   try {
-    const jobId = params.id;
+    const jobId = context?.params?.id as string;
     const body = await request.json();
 
     const updatedJob = await prisma.jobListing.update({
@@ -78,12 +74,9 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest, context: any) {
   try {
-    const jobId = params.id;
+    const jobId = context?.params?.id as string;
 
     await prisma.jobListing.delete({
       where: { id: jobId },

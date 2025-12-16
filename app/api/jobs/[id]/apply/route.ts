@@ -3,10 +3,9 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export const dynamic = "force-dynamic";
+
+export async function POST(request: NextRequest, context: any) {
   try {
     const session = await getServerSession(authOptions);
     
@@ -24,7 +23,7 @@ export async function POST(
       );
     }
 
-    const jobId = params.id;
+    const jobId = context?.params?.id as string;
     const body = await request.json();
     const { coverLetter, resumeUrl, skills } = body as {
       coverLetter?: string;
@@ -123,10 +122,7 @@ export async function POST(
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest, context: any) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -144,7 +140,7 @@ export async function DELETE(
       );
     }
 
-    const jobId = params.id;
+    const jobId = context?.params?.id as string;
 
     // Ensure an application exists
     const existing = await prisma.jobApplication.findUnique({

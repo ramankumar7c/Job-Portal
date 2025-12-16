@@ -3,10 +3,9 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { jobId: string } }
-) {
+export const dynamic = "force-dynamic";
+
+export async function GET(request: NextRequest, context: any) {
   try {
     const session = await getServerSession(authOptions);
     
@@ -17,7 +16,7 @@ export async function GET(
       );
     }
 
-    const jobId = params.jobId;
+    const jobId = context?.params?.jobId as string;
 
     const application = await prisma.jobApplication.findUnique({
       where: {

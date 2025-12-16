@@ -3,10 +3,9 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export const dynamic = "force-dynamic";
+
+export async function GET(request: NextRequest, context: any) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -17,7 +16,7 @@ export async function GET(
       );
     }
 
-    const jobId = params.id;
+    const jobId = context?.params?.id as string;
 
     // Verify the requester is the employer who owns this job (or an admin)
     const job = await prisma.jobListing.findUnique({
